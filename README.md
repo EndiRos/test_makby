@@ -158,18 +158,3 @@ src/
   - simplifying polygons before generating paths.
 
 ---
-
-## Add or Change the README PNG Image
-
-1. Create folder:
-   ```bash
-   mkdir -p docs
-   ```
-2. Copy your image:
-   ```bash
-   cp path/to/your_image.png docs/output_patterns.png
-   ```
-3. The README will automatically display it with:
-   ```md
-   ![Pattern View](docs/gcode_visualization.png)
-   ```
