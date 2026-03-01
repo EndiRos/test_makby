@@ -64,8 +64,7 @@ The program calculates intersections/differences between regions and applies a d
 - Linux
 - `g++` with C++17
 - `cmake` (>= 3.15 recommended)
-- Clipper2 included in:
-  - `external/Clipper2/CPP`
+- Clipper2
 
 Basic installation on Ubuntu/Debian:
 
@@ -73,6 +72,25 @@ Basic installation on Ubuntu/Debian:
 sudo apt update
 sudo apt install -y build-essential cmake
 ```
+
+### Clipper2 Installation
+
+Install Clipper2 from the official GitHub repository:
+
+```bash
+# Clone the Clipper2 repository
+git clone https://github.com/AngusJohnson/Clipper2.git
+cd Clipper2/CPP
+
+# Build and install
+cmake .
+cmake --build . --config Release
+sudo cmake --install .
+```
+
+For more information, visit:
+- **Official Repository:** [Clipper2 GitHub](https://github.com/AngusJohnson/Clipper2)
+- **Documentation:** [Clipper2 Documentation](https://www.angusj.com/clipper2/Docs/Overview.htm)
 
 ---
 
