@@ -12,9 +12,8 @@ The program calculates intersections/differences between regions and applies a d
 
 ## Preview
 
-> Place your image in `docs/output_patterns.png` (or change the path).
 
-![Pattern View](docs/output_patterns.png)
+![Pattern View](docs/gcode_visualization.png)
 
 ---
 
