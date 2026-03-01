@@ -1,55 +1,55 @@
 # Geometry Patterns Generator
 
-Generador de patrones geométricos en **G-code** a partir de 3 polígonos base:
+Generator of geometric patterns in **G-code** from 3 base polygons:
 
-- Rectángulo 1
-- Rectángulo 2
-- Triángulo
+- Rectangle 1
+- Rectangle 2
+- Triangle
 
-El programa calcula intersecciones/diferencias entre regiones y aplica un patrón distinto por zona.
-
----
-
-## Vista previa
-
-> Coloca tu imagen en `docs/output_patterns.png` (o cambia la ruta).
-
-![Vista de patrones](docs/output_patterns.png)
+The program calculates intersections/differences between regions and applies a different pattern per zone.
 
 ---
 
-## Arquitectura del proyecto
+## Preview
 
-### Componentes principales
+> Place your image in `docs/output_patterns.png` (or change the path).
+
+![Pattern View](docs/output_patterns.png)
+
+---
+
+## Project Architecture
+
+### Main Components
 
 - **`GeometryProcessor`**
-  - Operaciones booleanas entre polígonos (intersección, diferencia, triple intersección).
-  - Basado en Clipper2.
+  - Boolean operations between polygons (intersection, difference, triple intersection).
+  - Based on Clipper2.
 
-- **`IPattern`** (interfaz)
-  - Contrato común: `generate(const Polygon&)` y `name()`.
+- **`IPattern`** (interface)
+  - Common contract: `generate(const Polygon&)` and `name()`.
 
-- Patrones concretos:
-  - **`RectilinearPattern`** (rotación configurable, p.ej. 0°, 90°, 120°)
+- Concrete patterns:
+  - **`RectilinearPattern`** (configurable rotation, e.g. 0°, 90°, 120°)
   - **`HoneycombPattern`**
   - **`SpiralPattern`**
   - **`ConcentricPattern`**
 
 - **`GCodeGenerator`**
-  - Construye salida G-code por regiones.
-  - Soporta segmentos normales y de viaje (`is_travel`).
+  - Builds G-code output per region.
+  - Supports normal and travel segments (`is_travel`).
 
 - **`main.cpp`**
-  - Define geometrías de entrada.
-  - Calcula regiones:
-    - zonas exclusivas (`r1Only`, `r2Only`, `tOnly`)
-    - intersecciones dobles sin triple (`intR1R2Only`, `intR1TOnly`, `intR2TOnly`)
-    - triple intersección (`intAll`)
-  - Asigna patrón a cada región y exporta `output_patterns.gcode`.
+  - Defines input geometries.
+  - Calculates regions:
+    - exclusive zones (`r1Only`, `r2Only`, `tOnly`)
+    - double intersections without triple (`intR1R2Only`, `intR1TOnly`, `intR2TOnly`)
+    - triple intersection (`intAll`)
+  - Assigns pattern to each region and exports `output_patterns.gcode`.
 
 ---
 
-## Asignación de patrones actual
+## Current Pattern Assignment
 
 - `Rectangle 1` → Rectilinear 0°
 - `Rectangle 2` → Honeycomb
@@ -60,15 +60,15 @@ El programa calcula intersecciones/diferencias entre regiones y aplica un patró
 
 ---
 
-## Requisitos
+## Requirements
 
 - Linux
-- `g++` con C++17
-- `cmake` (>= 3.15 recomendado)
-- Clipper2 incluido en:
+- `g++` with C++17
+- `cmake` (>= 3.15 recommended)
+- Clipper2 included in:
   - `external/Clipper2/CPP`
 
-Instalación básica en Ubuntu/Debian:
+Basic installation on Ubuntu/Debian:
 
 ```bash
 sudo apt update
@@ -77,9 +77,9 @@ sudo apt install -y build-essential cmake
 
 ---
 
-## Compilación
+## Build
 
-Desde la raíz del proyecto:
+From the project root:
 
 ```bash
 mkdir -p build
@@ -90,20 +90,20 @@ make -j$(nproc)
 
 ---
 
-## Ejecución
+## Execution
 
 ```bash
 cd build
 ./geometry_patterns
 ```
 
-Salida esperada:
-- Archivo G-code: `output_patterns.gcode` (en raíz del proyecto o en cwd según implementación)
-- Mensaje: `✓ Generation complete!`
+Expected output:
+- G-code file: `output_patterns.gcode` (in project root or cwd depending on implementation)
+- Message: `✓ Generation complete!`
 
 ---
 
-## Estructura de carpetas (resumen)
+## Folder Structure (summary)
 
 ```text
 include/
@@ -131,28 +131,28 @@ src/
 
 ---
 
-## Notas técnicas
+## Technical Notes
 
-- Para evitar rellenos duplicados en zonas solapadas, usa `FillRule::NonZero` y unifica recortes antes de `Difference`.
-- `std::vector` ya reserva datos en heap internamente; `unique_ptr` se usa para ciclo de vida seguro de objetos polimórficos.
-- Si hay patrones muy densos, considera:
-  - subir `line_spacing`
-  - reducir resolución angular (spiral/concentric)
-  - simplificar polígonos antes de generar trayectorias.
+- To avoid duplicate fills in overlapping zones, use `FillRule::NonZero` and unify clippings before `Difference`.
+- `std::vector` already reserves data in heap internally; `unique_ptr` is used for safe lifecycle of polymorphic objects.
+- If patterns are very dense, consider:
+  - increasing `line_spacing`
+  - reducing angular resolution (spiral/concentric)
+  - simplifying polygons before generating paths.
 
 ---
 
-## Añadir o cambiar la imagen PNG del README
+## Add or Change the README PNG Image
 
-1. Crea carpeta:
+1. Create folder:
    ```bash
    mkdir -p docs
    ```
-2. Copia tu imagen:
+2. Copy your image:
    ```bash
-   cp ruta/de/tu_imagen.png docs/output_patterns.png
+   cp path/to/your_image.png docs/output_patterns.png
    ```
-3. El README ya la mostrará automáticamente con:
+3. The README will automatically display it with:
    ```md
-   ![Vista de patrones](docs/output_patterns.png)
+   ![Pattern View](docs/gcode_visualization.png)
    ```
